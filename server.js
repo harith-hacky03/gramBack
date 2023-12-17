@@ -108,6 +108,7 @@ function frndPosts(user_id)
 
 app.get('/myId',async(req,res)=>{
     console.log(req.body.username)
+    res.send('eee')
 })
 
 function getmyID(user_name)
