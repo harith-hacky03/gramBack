@@ -106,17 +106,7 @@ function frndPosts(user_id)
     })
 }
 
-app.get('/myId',async(req,res)=>{
-    console.log(req.body.username)
-    res.send('eee')
-})
 
-function getmyID(user_name)
-{
-    return new Promise((resolve,reject)=>{
-        let query=`SELECT user_id FROM user_auth WHERE user_name=${user_name}`
-    })
-}
 
 app.get('/uploadPost',async(req,res)=>{
     try{
