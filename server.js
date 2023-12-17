@@ -1,7 +1,15 @@
 const express=require('express')
-const mysql=require('mysql')
+
+const cors = require('cors');
+const bodyParser = require('body-parser');
+const mysql = require('mysql');
+
+
+// Middleware
 
 const app=express()
+app.use(cors());
+app.use(bodyParser.json());
 
 const sql=mysql.createConnection({
     host:'mys.cjkowvxrkmpy.eu-north-1.rds.amazonaws.com',
@@ -21,10 +29,9 @@ sql.connect(err=>{
 })
 
 
-app.get('/addUser',(req,res)=>{
-    let username="Jannesh"
-    let password="ji"
-
+app.post('/addUser',(req,res)=>{
+    let username=req.body.user_name
+    let password=req.body.password
     let sql_query=`INSERT INTO user_auth(user_name,user_pass) VALUES("${username}","${password}");`
      sql.query(sql_query,(err,data)=>{
         if(err) res.send(err)
