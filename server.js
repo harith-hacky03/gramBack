@@ -13,6 +13,7 @@ const upload = multer({ dest: 'uploads/' })
 const app=express()
 app.use(cors());
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ limit: "50mb", extended: true, parameterLimit: 50000 }))
 
 const sql=mysql.createConnection({
     host:'mys.cjkowvxrkmpy.eu-north-1.rds.amazonaws.com',
@@ -43,12 +44,28 @@ app.post('/addUser',(req,res)=>{
     let username=req.body.user_name
     let password=req.body.password
     let profile=req.body.profile
-    let sql_query=`INSERT INTO user_auth(user_name,user_pass) VALUES("${username}","${password}","${profile});`
+    let sql_query=`INSERT INTO user_auth(user_name,user_pass,profile_pic) VALUES("${username}","${password}",${profile});`
      sql.query(sql_query,(err,data)=>{
         if(err) res.send(err)
         else res.send('User inserted')
     })
 })
+
+
+app.get('/getD',async(req,res)=>{
+   let result=await gt()
+   console.log(result)
+
+})
+
+const gt=async()=>{
+    return new Promise((resolve,reject)=>{
+        let sql_query=`SELECT profile_pic FROM user_auth WHERE user_id=36`
+   sql.query(sql_query,(err,data)=>{
+    if(err) reject(err)
+    else resolve(data)})
+    })
+}
 
 app.get('/addFrnd', async (req, res) => {
     try {
