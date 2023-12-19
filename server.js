@@ -3,6 +3,9 @@ const express=require('express')
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const mysql = require('mysql');
+const multer  = require('multer')
+const upload = multer({ dest: 'uploads/' })
+
 
 
 // Middleware
@@ -28,11 +31,19 @@ sql.connect(err=>{
     console.log('Database Connected')
 })
 
+const resul={"assets": [{"assetId": null, "base64": null, "duration": null, "exif": null, "height": 1024, "rotation": null, "type": "image", "uri": "file:///data/user/0/host.exp.exponent/cache/ExperienceData/%2540anonymous%252FHelloWorld-f715dde3-4174-47b5-8d92-ef9aba3f62d6/ImagePicker/cb8206e9-67da-483f-835c-f763e60a8123.jpeg", "width": 732}], "canceled": false, "cancelled": false}
+app.post("/upload", upload.single(resul), (req, res) => {
+    console.log("Body: ", req.body);
+    console.log("File: ", req.file);
+    res.send("File successfully uploaded.");
+});
+
 
 app.post('/addUser',(req,res)=>{
     let username=req.body.user_name
     let password=req.body.password
-    let sql_query=`INSERT INTO user_auth(user_name,user_pass) VALUES("${username}","${password}");`
+    let profile=req.body.profile
+    let sql_query=`INSERT INTO user_auth(user_name,user_pass) VALUES("${username}","${password}","${profile});`
      sql.query(sql_query,(err,data)=>{
         if(err) res.send(err)
         else res.send('User inserted')
