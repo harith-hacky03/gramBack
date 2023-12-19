@@ -51,21 +51,25 @@ app.post('/addUser',(req,res)=>{
     })
 })
 
+app.post("/upload", upload.single('profile'), (req, res) => {
+    console.log("Body: ", req.body);
+    console.log("File: ", req.file);
+    res.send("File successfully uploaded.");
+});
+
+
 
 app.get('/getD',async(req,res)=>{
-   let result=await gt()
-   console.log(result)
+   let sql_query="SELECT profile_pic FROM user_auth WHERE user_id=40"
+   sql.query(sql_query,(err,data)=>{
+    if(err) console.log(err)
+    else res.send(data)
+   })
+
 
 })
 
-const gt=async()=>{
-    return new Promise((resolve,reject)=>{
-        let sql_query=`SELECT profile_pic FROM user_auth WHERE user_id=36`
-   sql.query(sql_query,(err,data)=>{
-    if(err) reject(err)
-    else resolve(data)})
-    })
-}
+
 
 app.get('/addFrnd', async (req, res) => {
     try {
