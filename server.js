@@ -44,7 +44,7 @@ app.post('/addUser',(req,res)=>{
     let username=req.body.user_name
     let password=req.body.password
     let profile=req.body.profile
-    let sql_query=`INSERT INTO user_auth(user_name,user_pass,profile_pic) VALUES("${username}","${password}",${profile});`
+    let sql_query=`INSERT INTO user_auth(user_name,user_pass,profile_pic) VALUES("${username}","${password}","${profile}");`
      sql.query(sql_query,(err,data)=>{
         if(err) res.send(err)
         else res.send('User inserted')
